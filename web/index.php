@@ -1,6 +1,6 @@
 <?php
     session_start();
-    include "db_connection.php";
+    //include "db_connection.php";
 ?>
 
 <!DOCTYPE html>
@@ -19,7 +19,11 @@
 
 <body>
     <div>
-        <heading>Safe streets</heading>
+        <heading class="heading-main">Safe streets</heading>
+    </div>
+
+    <div>
+        <span ><a href="login.php">Начало</a></span>
     </div>
 </body>
 </html>
