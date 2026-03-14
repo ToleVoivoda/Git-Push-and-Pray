@@ -1,7 +1,7 @@
 #include<bits/stdc++.h>
 #include "graph_structure.hpp"
 using namespace std;
-vector<size_t> dijkstra( size_t start, size_t goal, const vector<vector<Edge>>& adj, const vector<Node>& nodes){
+vector<pair<size_t, size_t>> dijkstra( size_t start, size_t goal, const vector<vector<Edge>>& adj, const vector<Node>& nodes){
     size_t cnt_nodes = (size_t) nodes.size();
     priority_queue<pair<double, size_t>, vector< pair<double, size_t> >, greater<pair<double, size_t> > > priority__dijkstra;
     vector<double> cost_from_source;
@@ -28,7 +28,12 @@ vector<size_t> dijkstra( size_t start, size_t goal, const vector<vector<Edge>>& 
             }
             path.push_back(start);
             reverse(path.begin(), path.end());
-            return path;
+
+            vector<pair<size_t, size_t>> result;
+            for(size_t i = 0; i < (size_t)path.size() - 1; ++i){
+                result.push_back({path[i], path[i+1]});
+            }
+            return result;
         }
 
         if(current_cost > cost_from_source[current_node]){
@@ -44,7 +49,7 @@ vector<size_t> dijkstra( size_t start, size_t goal, const vector<vector<Edge>>& 
             double distance_cost, rating_cost;
 
             double edge_weight = distance_cost + rating_cost; */
-            double rating = (edge.rating / 10) - 0.1;
+            double rating = (edge.rating / 10.0) - 0.1;
             double edge_weight = edge.length * (1.0 + rating);
             double new_cost = current_cost + edge_weight;
 
@@ -58,7 +63,7 @@ vector<size_t> dijkstra( size_t start, size_t goal, const vector<vector<Edge>>& 
 
 
     }
-    return vector<size_t>();
+    return vector<pair<size_t, size_t>>();
 }
 
 
