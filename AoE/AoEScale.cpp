@@ -1,5 +1,7 @@
 #include "AoEScale.h"
 #include <iostream>
+#include <limits>
+#include <queue>
 
 // the current edge should be modified BEFORE using this function
 void updateNearEdges(vector<vector<pair<size_t,size_t>>>& adj, const pair<size_t,size_t>& srcEdge, const size_t& diffInRating) {
@@ -44,7 +46,7 @@ void updateOppositeSide(vector<vector<pair<size_t,size_t>>>& adj, const size_t& 
 }
 
 
-void printGraph(vector<vector<pair<size_t,size_t>>>& adj) {
+void printGraph(const vector<vector<pair<size_t,size_t>>>& adj) {
     size_t V = adj.size();
     for (size_t i=0;i<V;i++) {
         size_t numNeigh = adj[i].size();
@@ -54,3 +56,37 @@ void printGraph(vector<vector<pair<size_t,size_t>>>& adj) {
         std::cout<<std::endl;
     }
 }
+
+void updateNearEdgesV2(vector<vector<Edge>> &adj, vector<Node> &nodes, const size_t &srcEdge, const size_t &endEdge, const size_t &modifier) {
+
+}
+
+vector<size_t> bfs(vector<vector<Edge>>& adj, Node src, vector<double>& dist) {
+    size_t V = adj.size();
+    vector<int> visited(V, 0);
+    vector<size_t> ancestor(V,V);
+
+    for (int i=0;i<dist.size();i++) dist[i] = numeric_limits<double>::infinity();
+    dist[src.id]=0;
+    std::queue<Node> q;
+    visited[src.id] = 1;
+    q.push(src);
+
+    while (!q.empty()) {
+        Node curr = q.front();
+        q.pop();
+
+        for (auto x : adj[curr.id]) {
+            if (!visited[x.second_node.id]) {
+                dist[x.second_node.id] = dist[curr.id] + x.length;
+                visited[x.second_node.id] = 1;
+                q.push(x.second_node);
+            }
+        }
+        visited[curr.id]=2;
+    }
+
+    return ancestor;
+}
+
+
