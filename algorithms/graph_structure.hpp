@@ -10,7 +10,7 @@ struct Edge {
     Node second_node;
     double length;
     double rating;
-
+    size_t last_update;
 };
 
 #endif // __GRAPH__
