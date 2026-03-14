@@ -56,7 +56,8 @@ CREATE TABLE IF NOT EXISTS `edge`
     `v1` INT NOT NULL,
     `v2` INT NOT NULL,
     `rating` FLOAT,
-    `distance` FLOAT
+    `distance` FLOAT,
+    `lastUpdated` BIGINT
 );
 
 ALTER TABLE `userProfile`
