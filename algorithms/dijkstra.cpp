@@ -1,7 +1,7 @@
 #include<bits/stdc++.h>
 #include "graph_structure.hpp"
 using namespace std;
-vector<pair<size_t, size_t>> dijkstra( size_t start, size_t goal, const vector<vector<Edge>>& adj, const vector<Node>& nodes){
+vector<pair<size_t, size_t>> dijkstra( size_t start, size_t goal, double safety_coefficient,const vector<vector<Edge>>& adj, const vector<Node>& nodes){
     size_t cnt_nodes = (size_t) nodes.size();
     priority_queue<pair<double, size_t>, vector< pair<double, size_t> >, greater<pair<double, size_t> > > priority__dijkstra;
     vector<double> cost_from_source;
@@ -44,13 +44,10 @@ vector<pair<size_t, size_t>> dijkstra( size_t start, size_t goal, const vector<v
             const Edge& edge = *it;
             size_t next_node = edge.second_node.id;
 
-
-            /*
-            double distance_cost, rating_cost;
-
-            double edge_weight = distance_cost + rating_cost; */
             double rating = (edge.rating / 10.0) - 0.1;
-            double edge_weight = edge.length * (1.0 + rating);
+
+
+            double edge_weight = safety_coefficient * rating + (1 - safety_coefficient) * edge.length;
             double new_cost = current_cost + edge_weight;
 
             if(new_cost < cost_from_source[next_node]){
