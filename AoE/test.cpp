@@ -3,7 +3,7 @@
 #include "AoEScale.h"
 
 int main() {
-    vector<vector<pair<int,int>>> adj = {
+    vector<vector<pair<size_t,size_t>>> adj = {
         {{1,4},{2,8}},
         {{0,4},{4,6},{2,3}},
         {{0,8},{3,2},{1,3}},
