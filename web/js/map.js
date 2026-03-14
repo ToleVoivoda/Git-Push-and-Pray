@@ -1,4 +1,5 @@
 //initialize map
+
 const map = L.map('map').setView([42.6977, 23.3219], 13); // Sofia coordinates
 
 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
