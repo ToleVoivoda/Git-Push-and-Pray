@@ -1,6 +1,6 @@
 <?php
     session_start();
-    include "db_connection.php";
+    //include "db_connection.php";
 ?>
 
 <!DOCTYPE html>
@@ -14,12 +14,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/css/index.css">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <title>Форум</title>
+    <title>Safe streets</title>
 </head>
 
 <body>
     <div>
-        <heading>Safe streets</heading>
+        <heading class="heading-main">Safe streets</heading>
+    </div>
+
+    <div>
+        <span ><a href="login.php">Начало</a></span>
     </div>
 </body>
 </html>

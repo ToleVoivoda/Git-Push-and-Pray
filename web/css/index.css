@@ -1,0 +1,73 @@
+body
+{
+    background-image: url('web/img/indexbg.png');
+    background-size: cover;      
+    background-position: center;  
+    background-repeat: no-repeat; 
+    background-attachment: fixed;
+}
+
+.heading-main
+{
+    font-size: 20%;
+}
+
+main {
+    width: 100vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.register-box {
+    margin-top: 4em;
+    margin-bottom: 4em;
+    padding: 2em;
+    background-color: #e6e6e6;
+    width: 40em;
+}
+
+input[type="submit"]{
+    background-color: pink;
+    font-size: 1.2em;
+    width: 100%;
+    margin-top: 1.5em;
+    padding: 0.5em;
+}
+
+.register-box h2{
+    margin-bottom: 1em;
+}
+
+.register-checkboxes{
+    padding: 1em;
+    gap: 2em;
+}
+
+.birthdate-area label, .upload-img-area label{
+    margin-bottom: 0; 
+    border-bottom: 1px solid #e6e6e6; 
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+}
+.birthdate-area input{
+    padding-top: 1.5em;
+    padding-bottom: 1.5em;
+    border-top: 0 !important;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+}
+
+.color-area, .birthdate-area{
+    margin-bottom: 1em;
+}
+.color-area select{
+    padding-top: 1em;
+    padding-bottom: 1em;
+}
+
+.upload-img-area input{
+    border-top: 0 !important;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+}

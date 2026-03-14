@@ -1,56 +1,61 @@
+#include <vector>
+#include <queue>
+#include <cmath>
+#include <algorithm>
+#include "../algorithms/graph_structure.hpp"
 #include "AoEScale.h"
 #include <iostream>
+using namespace std;
 
-// the current edge should be modified BEFORE using this function
-void updateNearEdges(vector<vector<pair<size_t,size_t>>>& adj, const pair<size_t,size_t>& srcEdge, const size_t& diffInRating) {
-    size_t v1=srcEdge.first, v2=srcEdge.second;
+void updateNearEdgesV2(vector<vector<Edge>>& adj, const size_t& srcNodeId, const double& modifier) {
+    size_t V = adj.size();
+    size_t PATH_LENGTH = 2;
 
-    /// За недиректни ребра:
-    // vector<size_t> firstNeighbours;
-    // for (auto &p: adj[v1]) {
-    //     if (p.first!=v2) firstNeighbours.push_back(p.first);
-    // }
-    // for (auto &p: adj[v2]) {
-    //     if (p.first!=v1) firstNeighbours.push_back(p.first);
-    // }
+    vector<int> hops(V, -1);
+    queue<size_t> q;
+    hops[srcNodeId] = 0;
+    q.push(srcNodeId);
 
-    size_t numNeigh = adj[v1].size();
-    for (size_t i=0;i<numNeigh;i++) {
-        if (adj[v1][i].first!=v2) {
-            size_t other = adj[v1][i].first;
-            adj[v1][i].second += diffInRating * 0.6;
-            updateOppositeSide(adj,v1,other,diffInRating*0.6);
-        }
-    }
+    while (!q.empty()) {
+        size_t u = q.front();
+        q.pop();
+        int current_hop = hops[u];
 
-    numNeigh = adj[v2].size();
-    for (size_t i=0;i<numNeigh;i++) {
-        if (adj[v2][i].first!=v1) {
-            size_t other = adj[v2][i].first;
-            adj[v2][i].second += diffInRating * 0.6;
-            updateOppositeSide(adj,v2,other,diffInRating*0.6);
+        if (current_hop > PATH_LENGTH) continue;
+
+        double decay_factor = pow(0.25, current_hop + 1);
+        double added_danger = modifier * decay_factor;
+
+        for (Edge& edge : adj[u]) {
+            size_t v = edge.second_node.id;
+            edge.rating += added_danger;
+            edge.rating = std::min(edge.rating, 10.0);
+            updateOppositeEdge(adj, edge.first_node.id, edge.second_node.id, edge.rating);
+
+            if (hops[v] == -1) {
+                hops[v] = current_hop + 1;
+                q.push(v);
+            }
         }
     }
 }
 
-void updateOppositeSide(vector<vector<pair<size_t,size_t>>>& adj, const size_t& v1, const size_t& other, double modifier) {
-    size_t numNeigh = adj[other].size();
-    for (size_t i=0;i<numNeigh;i++) {
-        if (adj[other][i].first==v1) {
-            adj[other][i].second += modifier;
+void printGraph(const vector<vector<Edge>>& adj) {
+    for (int i=0;i<adj.size();i++) {
+        for (int j=0;j<adj[i].size();j++) {
+            std::cout<<"("<<adj[i][j].first_node.id<<"; "<<adj[i][j].second_node.id<<"; "<<adj[i][j].length<<"; "
+                    <<adj[i][j].rating<<")  ";
+        }
+        std::cout<<"\n";
+    }
+}
+
+void updateOppositeEdge(vector<vector<Edge>>& adj, const size_t& first, const size_t& second, double& newRating) {
+    for (int i=0;i<adj[second].size();i++) {
+        if (adj[second][i].second_node.id==first) {
+            newRating = std::min(newRating, 10.0);
+            adj[second][i].rating = newRating;
             return;
         }
-    }
-}
-
-
-void printGraph(vector<vector<pair<size_t,size_t>>>& adj) {
-    size_t V = adj.size();
-    for (size_t i=0;i<V;i++) {
-        size_t numNeigh = adj[i].size();
-        for (size_t j=0;j<numNeigh;j++) {
-            std::cout<<"("<<adj[i][j].first<<","<<adj[i][j].second<<") ";
-        }
-        std::cout<<std::endl;
     }
 }
