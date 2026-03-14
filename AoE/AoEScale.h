@@ -6,11 +6,11 @@
 #include "../algorithms/graph_structure.hpp"
 using namespace std;
 
-// void updateNearEdges(vector<vector<pair<size_t,size_t>>>& adj, const pair<size_t,size_t>& srcEdge, const size_t& diffInRating);
-// void updateOppositeSide(vector<vector<pair<size_t,size_t>>>& adj, const size_t& v1, const size_t& other, double modifier);
-// void printGraph(const vector<vector<pair<size_t,size_t>>>& adj);
 
+void updateOppositeEdge(vector<vector<Edge>>& adj, const size_t& first, const size_t& second, double& newRating);
+void printGraph(const vector<vector<Edge>>& adj);
 void updateNearEdgesV2(vector<vector<Edge>>& adj, const size_t& srcNodeId, const double& modifier);
 std::queue<vector<Edge>> bfs(vector<vector<Edge>>& adj, const Node& src, vector<double>& dist);
+
 
 #endif //GIT_PUSH_AND_PRAY_AOESCALE_H
