@@ -4,47 +4,27 @@
 using namespace std;
 int main() {
     //  Open the text file
-    ifstream file("graph.txt");
+    ifstream file("compressed_graph.txt");
     if (!file.is_open()) {
         cerr << "Error: Could not open graph.txt. Make sure the file is in the same directory!" << endl;
         return 1;
     }
-
-    //  Read 'n' (vertices) and 'm' (edges)
-    size_t vertices, edges;
-    if (!(file >> vertices >> edges)) {
-        cerr << "Error: File format is incorrect or empty." << endl;
-        return 1;
-    }
-
-    // Initialize nodes and adjacency list based on 'n'
-    vector<Node> nodes(vertices);
-    for (size_t i = 0; i < vertices; ++i) {
-        nodes[i] = {i}; // Assign IDs from 0 to n-1
-    }
-
-    vector<vector<Edge>> adj(vertices);
-
-    // Read the 'm' edges
-    size_t begin_node, end_node;
-    double distance_edge, rating_edge;
-    for (size_t i = 0; i < edges; ++i) {
-        file >> begin_node >> end_node >> distance_edge >> rating_edge;
-
-        adj[begin_node].push_back({nodes[begin_node], nodes[end_node], distance_edge, rating_edge});
-        adj[end_node].push_back({nodes[end_node], nodes[begin_node], distance_edge, rating_edge});
+    Edge curr;
+    vector<vector<Edge>> adj(73731);
+    while(file >> curr.first_node.id >> curr.second_node.id >> curr.length >> curr.rating >> curr.last_update ){
+        adj[curr.first_node.id].push_back(curr);
+        swap(curr.first_node.id, curr.second_node.id);
+        adj[curr.first_node.id].push_back(curr);
     }
 
     file.close();
 
     //  Run Dijkstra from Node 0 to the last node (n - 1)
     size_t start_node = 0;
-    size_t goal_node = vertices - 1;
+    size_t goal_node = 70000;
 
-    cout << "Loaded graph with " << vertices << " vertices and " << edges << " edges." << endl;
-    cout << "Running Dijkstra to find path from " << start_node << " to " << goal_node << "..." << endl;
 
-    vector<size_t> shortest_path = dijkstra(start_node, goal_node, adj, nodes);
+    vector<pair<size_t, size_t>> shortest_path = dijkstra(start_node, goal_node, 0.7, adj);
 
     // Write the resulting edges to a text file
     ofstream outfile("path_edges.txt", ios::trunc);
@@ -59,9 +39,9 @@ int main() {
         outfile << "No path found.\n";
     } else {
 
-        for(size_t i = 0; i < (size_t)shortest_path.size() - 1; ++i){
-            size_t first_node = shortest_path[i];
-            size_t second_node = shortest_path[i+1];
+        for(size_t i = 0; i < (size_t)shortest_path.size(); ++i){
+            size_t first_node = shortest_path[i].first;
+            size_t second_node = shortest_path[i].second;
             outfile << first_node << " " << second_node << "\n";
         }
         outfile.close();
