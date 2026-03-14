@@ -1,8 +1,11 @@
 #include<bits/stdc++.h>
 #include "graph_structure.hpp"
+#include<ctime>
+#include<cstdlib>
 using namespace std;
 
 int main(){
+    srand(time(0));
     ifstream my_file("graph_for_cpp.txt");
 
     if (!my_file.is_open()) {
@@ -35,7 +38,11 @@ int main(){
     while(my_file2 >> first_vertex >> second_vertex >> edge_distance){
         size_t first_node = compression[first_vertex];
         size_t second_node = compression[second_vertex];
-        edges.push_back({first_node, second_node, edge_distance, 0.0, 0});
+        double curr_rating = ((double)(rand() % 100))/10.0 + 1.0;
+        if(curr_rating >= 10.0){
+            curr_rating = 10.0;
+        }
+        edges.push_back({first_node, second_node, edge_distance, curr_rating, 0});
     }
     my_file2.close();
 
