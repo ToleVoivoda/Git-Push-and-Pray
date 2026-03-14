@@ -11,6 +11,6 @@ void updateOppositeEdge(vector<vector<Edge>>& adj, const size_t& first, const si
 void printGraph(const vector<vector<Edge>>& adj);
 void updateNearEdgesV2(vector<vector<Edge>>& adj, const size_t& srcNodeId, const double& modifier);
 std::queue<vector<Edge>> bfs(vector<vector<Edge>>& adj, const Node& src, vector<double>& dist);
-
+// void addTimeDecay(Edge& edge);
 
 #endif //GIT_PUSH_AND_PRAY_AOESCALE_H

@@ -5,6 +5,7 @@
 #include "../algorithms/graph_structure.hpp"
 #include "AoEScale.h"
 #include <iostream>
+#include <chrono>
 using namespace std;
 
 void updateNearEdgesV2(vector<vector<Edge>>& adj, const size_t& srcNodeId, const double& modifier) {
@@ -30,6 +31,7 @@ void updateNearEdgesV2(vector<vector<Edge>>& adj, const size_t& srcNodeId, const
             size_t v = edge.second_node.id;
             edge.rating += added_danger;
             edge.rating = std::min(edge.rating, 10.0);
+            // addTimeDecay(edge);
             updateOppositeEdge(adj, edge.first_node.id, edge.second_node.id, edge.rating);
 
             if (hops[v] == -1) {
@@ -59,3 +61,8 @@ void updateOppositeEdge(vector<vector<Edge>>& adj, const size_t& first, const si
         }
     }
 }
+//
+// void addTimeDecay(Edge &edge) {
+//     auto now = chrono::system_clock::now().time_since_epoch();
+//     auto diff = now-edge.last_update;
+// }
