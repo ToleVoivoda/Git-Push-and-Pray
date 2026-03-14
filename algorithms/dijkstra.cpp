@@ -1,13 +1,12 @@
 #include<bits/stdc++.h>
 #include "graph_structure.hpp"
 using namespace std;
-vector<pair<size_t, size_t>> dijkstra( size_t start, size_t goal, double safety_coefficient,const vector<vector<Edge>>& adj, const vector<Node>& nodes){
-    size_t cnt_nodes = (size_t) nodes.size();
+vector<pair<size_t, size_t>> dijkstra( size_t start, size_t goal, double safety_coefficient, const vector<vector<Edge>>& adj){
     priority_queue<pair<double, size_t>, vector< pair<double, size_t> >, greater<pair<double, size_t> > > priority__dijkstra;
     vector<double> cost_from_source;
     vector<size_t> came_from;
-    cost_from_source.resize(cnt_nodes, numeric_limits<double>::infinity());
-    came_from.resize(cnt_nodes, SIZE_MAX);
+    cost_from_source.resize( 73731 , numeric_limits<double>::infinity());
+    came_from.resize(73731, SIZE_MAX);
 
     priority__dijkstra.push({0.0 , start});
     cost_from_source[start] = 0.0;
