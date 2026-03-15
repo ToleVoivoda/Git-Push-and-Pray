@@ -25,7 +25,7 @@
     <div id="map"></div>
 
     <div>
-        <span><a class="homebtn" href="map.php">Начало</a></span>
+        <span><a class="homebtn" href="login.php">Начало</a></span>
     </div>
 </body>
 </html>

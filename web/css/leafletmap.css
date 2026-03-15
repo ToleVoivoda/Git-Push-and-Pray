@@ -9,3 +9,93 @@
     background-color: #eadaa2;
     border-radius: 30px;
 }
+
+.map-aside
+{
+    background-color: transparent;
+    border-color: transparent;
+    position: fixed;
+    top: 30%;
+    right: 20%;
+}
+
+.profile-img
+{
+    position: fixed;
+    bottom: 20px;
+    left: 20px;
+
+    width: 60px;
+    height: 60px;
+
+    border-radius: 50%;
+    object-fit: cover;
+    
+    z-index: 1000;
+    
+
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    
+
+    cursor: pointer;
+}
+
+.data-box
+{
+    position: fixed;
+    top: 200;
+    right: 80px;
+    background-color: #eadaa2;
+    border-radius: 30px;
+    height: 300px;
+    width: 300px;
+     box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+}
+
+.homebtn
+{
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #373f51;
+    color: white;
+    text-decoration: none;
+    text-align: center;
+    font-size: 4vh;
+    
+    border-radius: 20px;
+    font-family: sans-serif;
+    height: 40px;
+    width: 170px;
+
+    position: absolute;
+    
+    top: 60%; 
+    right: 15%;
+}
+
+.email-label {
+    display: flex;
+    
+    justify-content: center;
+    
+    
+    align-items: center;
+    
+    height: 100px; 
+    
+    font-size: 30px;
+}
+
+.label-message
+{
+display: flex;
+    
+    justify-content: center;
+    
+    
+    align-items: center;
+    
+    height: 100px; 
+    
+    font-size: 20px;
+}

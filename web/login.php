@@ -1,6 +1,7 @@
 <?php
     session_start();
     //include "db_connection.php";
+
 ?>
 
 <!DOCTYPE html>
@@ -15,6 +16,7 @@
     <link rel="stylesheet" href="/css/index.css">
     <link rel="stylesheet" href="css/login.css">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <script src="js/localStorage.js"></script>
     <title>Safe streets</title>
 </head>
 
@@ -25,7 +27,7 @@
         </div>
         <div class="login-box">
             <h2 class="loginheading">Вход</h2>
-            <form id="login-form" class="login-form" action="login-action.php" method="post">
+            <form id="login-form" class="login-form" onsubmit="setCredentials()">
                 <div class="form-floating mb-3 mt-3">
                     <input type="email" class="form-control" id="email" placeholder="Въведете имейл" name="email">
                     <label for="email">Имейл</label>
