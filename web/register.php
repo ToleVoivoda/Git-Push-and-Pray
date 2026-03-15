@@ -13,14 +13,15 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/css/index.css">
+    <link rel="stylesheet" href="css/login.css">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <title>Safe streets</title>
 </head>
 
 <body>
     <main>
-        <div class="register-box">
-            <h2>Регистрация</h2>
+        <div class="login-box">
+            <h2 class="loginheading">Регистрация</h2>
             <form id="register-form" action="register-action-try2.php" method="post">
                 <div class="form-floating mb-3 mt-3">
                     <input type="text" class="form-control" id="firstname" placeholder="Въведете име" name="firstname">
@@ -36,26 +37,6 @@
                         <input type="radio" id="man" value=1 name="gender" class="form-check-input" />Мъж
                         <label class="form-check-label" for="man"></label>
                     </div>
-                </div>
-
-                <div class="birthdate-area">
-                    <label for="birthday" class="form-control">Дата на раждане (YYYY-MM-DD)</label>
-                    <input id="birthday" type="string" class="form-control" pattern="\d{4}-\d{2}-\d{2}">
-                </div>
-
-                <div class="color-area">
-                    <select name="colour" id="colour" class="form-select">
-                        <option value="" >Цвят</option>
-                        <option value="red">Червено</option>
-                        <option value="orange">Оранжево</option>
-                        <option value="yellow">Жълто</option>
-                        <option value="lightgreen">Светлозелено</option>
-                        <option value="darkgreen">Тъмнозелено</option>
-                        <option value="lightblue">Светлосиньо</option>
-                        <option value="darkblue">Тъмносиньо</option>
-                        <option value="purple">Лилаво</option>
-                        <option value="babypink">Розово</option>
-                    </select>
                 </div>
 
                 <div class="form-floating mt-3 mb-3">
@@ -78,7 +59,7 @@
                     <label for="password2">Повторете паролата</label>
                 </div>
 
-                <input type="submit" value="Регистрирай се">
+                <input class="login-button" type="submit" value="Регистрирай се">
             </form>
         </div>
     </main>

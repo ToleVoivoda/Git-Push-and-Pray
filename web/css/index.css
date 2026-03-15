@@ -1,10 +1,31 @@
 body
 {
-    /*background-image: url('web/img/indexbg.png');*/
+    background-image: url('../img/indexbgcheat.png');
     background-size: cover;      
     background-position: center;  
     background-repeat: no-repeat; 
     background-attachment: fixed;
+}
+
+.homebtn
+{
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #58a4b0;
+    color: white;
+    text-decoration: none;
+    text-align: center;
+    font-size: 4vh;
+    
+    border-radius: 20px;
+    font-family: sans-serif;
+    height: 60px;
+    width: 200px;
+
+    position: absolute;
+    
+    top: 60%; 
+    right: 15%;
 }
 
 .heading-main

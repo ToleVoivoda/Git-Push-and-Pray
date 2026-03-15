@@ -13,6 +13,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/css/index.css">
+    <link rel="stylesheet" href="css/login.css">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <title>Safe streets</title>
 </head>
@@ -20,7 +21,7 @@
 <body>
     <main>
         <div class="login-box">
-            <h2>Вход</h2>
+            <h2 class="loginheading">Вход</h2>
             <form id="login-form" action="login-action.php" method="post">
                 <div class="form-floating mb-3 mt-3">
                     <input type="email" class="form-control" id="email" placeholder="Въведете имейл" name="email">
@@ -36,7 +37,7 @@
                     <span ><a href="register.php">Нямате профил? Регистрация</a></span>
                 </div>
                 
-                <input type="submit" value="Вход">
+                <input class="login-button" type="submit" value="Вход">
             </form>
         </div>
     </main>

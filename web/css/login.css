@@ -1,0 +1,36 @@
+body
+{
+    background-image: url('../img/loginbg.png');
+    background-size: cover;      
+    background-position: center;  
+    background-repeat: no-repeat; 
+    background-attachment: fixed;
+}
+
+.login-box
+{
+    align-items: center;
+    padding: 3%;
+    width: 50vh;
+    height: 50vh;
+    background-color: white;
+    position: absolute;
+    top: 30%;
+    right: 5%;
+    border-radius: 10%;
+}
+
+.loginheading
+{
+    text-align: center;
+}
+
+.login-button
+{
+    background-color: #dba2ff;
+    border-color: transparent;
+    height: 50px;
+    width: 150px;
+    align-items: center;
+    border-radius: 15%;
+}
