@@ -4,17 +4,12 @@
     <title>Safe Route Map</title>
 
     <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css"/>
-    <link rel="stylesheet" href="web/css/leaflet.css">
+    <link rel="stylesheet" href="css/leafletmap.css">
 
-    <style>
-        #map {
-            height: 600px;
-        }
-    </style>
 </head>
 <body>
 
-<div id="map"></div>
+<div class="map" id="map"></div>
 
 <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
 <script src="js/map.js"></script>
