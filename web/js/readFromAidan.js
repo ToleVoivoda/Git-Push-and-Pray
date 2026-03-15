@@ -5,15 +5,22 @@ export async function calculatePath(map, startVertIdx, endVertIdx) {
         body: JSON.stringify({ start: startVertIdx, end: endVertIdx })
     });
 
-    const path = await response.json(); // This receives the JSON from C++ via PHP
+    const data = await response.json();
 
-    // Now convert the path of edges into coordinates
-    const uniqueIds = [...new Set(path.flatMap(edge => [edge.v1, edge.v2]))];
-    const pathCoords = await getPathCoordinates(path, uniqueIds);
+    const drawPath = async (pathData, color) => {
+        if (!pathData || pathData.length === 0) return;
+        
+        const ids = [...new Set(pathData.flatMap(edge => [edge.v1, edge.v2]))];
+        const coords = await getPathCoordinates(pathData, ids);
+        
+        if (coords.length > 0) {
+            L.polyline(coords, { color: color, weight: 5 }).addTo(map);
+        }
+    };
 
-    if (pathCoords.length > 0) {
-        L.polyline(pathCoords, {color: 'blue', weight: 5}).addTo(map);
-    }
+    // Render Blue for Safe, Red for Shortest
+    await drawPath(data.safe, 'blue');
+    await drawPath(data.shortest, 'red');
 }
 
 async function getPathCoordinates(path, ids) {

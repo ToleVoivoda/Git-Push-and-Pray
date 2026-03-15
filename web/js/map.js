@@ -181,7 +181,7 @@ async function handleStatePickPathEnd(e) {
     
     alert("Готово!");
     
-    invokePathfinder();
+    await invokePathfinder();
 
     appState = IDLE_STATE_TOKEN;
 }
@@ -194,10 +194,10 @@ async function getNearestVertex(lat, lng) {
     return data;
 }
 
-function invokePathfinder() {
+async function invokePathfinder() {
     console.log("s: " + startVertIdx + " t: " + endVertIdx);
 
-    calculatePath(map, startVertIdx, endVertIdx);
+    await calculatePath(map, startVertIdx, endVertIdx);
 }
 
 // let points = []; 
