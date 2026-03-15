@@ -131,8 +131,9 @@ window.simulateSendReport = function(v1_id, lat, lng) {
     console.log("Graph Edge Saved:", graphUpdate);
     
     // Draw visual marker
-    drawDangerEdge(v1_id, graphUpdate.v2, lat, lng);
+    //drawDangerEdge(v1_id, graphUpdate.v2, lat, lng);
 
+    
     alert("Сигналът е записан успешно!");
         
 }
@@ -140,26 +141,26 @@ window.simulateSendReport = function(v1_id, lat, lng) {
 //tva se vika samo ot butona
 function setStateToPickPath() {
     map.closePopup();
-    appState = IDLE_STATE_TOKEN;
+    appState = PICK_PATH_END_STATE_TOKEN;
 };
 
-function drawDangerEdge(v1, v2, lat, lng) {
-    const marker = L.circle([lat, lng], {
-        color: 'red',
-        fillColor: '#f03',
-        fillOpacity: 0.5,
-        radius: 30
-    }).addTo(dangerMarkers);
+// function drawDangerEdge(v1, v2, lat, lng) {
+//     const marker = L.circle([lat, lng], {
+//         color: 'red',
+//         fillColor: '#f03',
+//         fillOpacity: 0.5,
+//         radius: 30
+//     }).addTo(map);
 
-    marker.bindPopup(`<b>Сигнал за опасност</b><br>Възел: ${v1}<br>Свързан към: ${v2}`);
-}
+//     marker.bindPopup(`<b>Сигнал за опасност</b><br>Възел: ${v1}<br>Свързан към: ${v2}`);
+// }
 
 // --- PATHFINDING LOGIC ---
-window.setStateToPickPath = function() {
-    map.closePopup();
-    appState = PICK_PATH_START_STATE_TOKEN;
-    alert("Избери НАЧАЛНА точка от картата!");
-};
+// window.setStateToPickPath = function() {
+//     map.closePopup();
+//     appState = PICK_PATH_START_STATE_TOKEN;
+//     alert("Избери НАЧАЛНА точка от картата!");
+// };
 
 async function handleStatePickPathStart(e) {
     // 1. Get the data from the server
@@ -219,7 +220,11 @@ function invokePathfinder() {
 
 //path request
 
-
+function updatePopupShow()
+{
+    console.log(":)");
+    openDangerFormDirectly();
+}
 
 //
 
