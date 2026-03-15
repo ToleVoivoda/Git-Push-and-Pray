@@ -113,8 +113,9 @@ window.simulateSendReport = function(v1_id, lat, lng) {
     console.log("Graph Edge Saved:", graphUpdate);
     
     // Draw visual marker
-    drawDangerEdge(v1_id, graphUpdate.v2, lat, lng);
+    //drawDangerEdge(v1_id, graphUpdate.v2, lat, lng);
 
+    
     alert("Сигналът е записан успешно!");
         
 }
@@ -125,23 +126,23 @@ function setStateToPickPath() {
     appState = PICK_PATH_START_STATE_TOKEN;
 };
 
-function drawDangerEdge(v1, v2, lat, lng) {
-    const marker = L.circle([lat, lng], {
-        color: 'red',
-        fillColor: '#f03',
-        fillOpacity: 0.5,
-        radius: 30
-    }).addTo(dangerMarkers);
+// function drawDangerEdge(v1, v2, lat, lng) {
+//     const marker = L.circle([lat, lng], {
+//         color: 'red',
+//         fillColor: '#f03',
+//         fillOpacity: 0.5,
+//         radius: 30
+//     }).addTo(map);
 
-    marker.bindPopup(`<b>Сигнал за опасност</b><br>Възел: ${v1}<br>Свързан към: ${v2}`);
-}
+//     marker.bindPopup(`<b>Сигнал за опасност</b><br>Възел: ${v1}<br>Свързан към: ${v2}`);
+// }
 
 // --- PATHFINDING LOGIC ---
-window.setStateToPickPath = function() {
-    map.closePopup();
-    appState = PICK_PATH_START_STATE_TOKEN;
-    alert("Избери НАЧАЛНА точка от картата!");
-};
+// window.setStateToPickPath = function() {
+//     map.closePopup();
+//     appState = PICK_PATH_START_STATE_TOKEN;
+//     alert("Избери НАЧАЛНА точка от картата!");
+// };
 
 async function handleStatePickPathStart(e) {
     const nearest = await getNearestVertex(e.latlng.lat, e.latlng.lng);
@@ -199,6 +200,28 @@ function invokePathfinder() {
     calculatePath(map, startVertIdx, endVertIdx);
 }
 
+// let points = []; 
+// map.on('click', function(e) {
+//    points.push(e.latlng);
+//     L.marker(e.latlng).addTo(map);
+
+//     if (points.length === 2) {
+//         //start/end point, cpp call for path @Aydin  VIJ GORE line 45^
+//         fetchPath(points[0], points[1]);
+//         points = []; // Reset for next selection
+//     }
+// });
+
+//path request
+
+function updatePopupShow()
+{
+    console.log(":)");
+    openDangerFormDirectly();
+}
+
+//
+
 // Expose functions to the global scope so buttons can find them
 window.setStateToPickPath = setStateToPickPath;
-//window.updatePopupShow = updatePopupShow;
+window.updatePopupShow = updatePopupShow;
