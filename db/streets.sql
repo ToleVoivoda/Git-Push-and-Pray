@@ -83,6 +83,11 @@ ADD CONSTRAINT `edgeVertex_vertex_id` FOREIGN KEY (`vertexId`) REFERENCES vertex
 ALTER TABLE `edgeVertex`
 ADD CONSTRAINT `edgeVertex_edge_id` FOREIGN KEY (`edgeId`) REFERENCES edge(`id`);
 
+ALTER TABLE `vertex`
+    ADD COLUMN `lat` FLOAT NOT NULL;
+ALTER TABLE `vertex`
+    ADD COLUMN `lon` FLOAT NOT NULL;
+
 INSERT INTO `updateCategory` (`name`)
     VALUES ("Намалена видимост");
 INSERT INTO `updateCategory` (`name`)

@@ -92,6 +92,10 @@ function updatePopupShow()
 //===ALEX===
 function handleStateSubmitReport() {
     console.log("report red");
+    
+
+
+
 
     appState = IDLE_STATE_TOKEN;
 }
