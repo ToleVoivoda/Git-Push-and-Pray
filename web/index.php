@@ -25,7 +25,7 @@
     <div id="map"></div>
 
     <div>
-        <span ><a href="map.php">Начало</a></span>
+        <span><a href="map.php">Начало</a></span>
     </div>
 </body>
 </html>

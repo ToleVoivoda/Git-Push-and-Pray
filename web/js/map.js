@@ -1,4 +1,4 @@
-//initialize map
+import { calculatePath } from 'readFromAidan.js';
 
 const map = L.map('map').setView([42.6977, 23.3219], 13); // Sofia coordinates
 
@@ -14,29 +14,40 @@ function addupdate() {
     //
 }
 
-// Bind the action to the click event
-myButton.addEventListener("click", triggerAction);
-
 //idle, pick_end
-let appState = 'IDLE';
+//malko ti prepravih statemashinata:
+//sustoqniqta sa IDLE, PICK_PATH, UPLOAD_REPORT
+//napravih i podavtomat na PICK_PATH sustoqnieto
+
+const IDLE_STATE_TOKEN = 'IDLE';
+
+const PICK_PATH_STATE_TOKEN = 'PICK_PATH';
+const PICK_PATH_START_STATE_TOKEN = 'PICK_PATH_START';
+const PICK_PATH_END_STATE_TOKEN = 'PICK_PATH_END';
+
+const SUBMIT_REPORT_STATE_TOKEN = 'SUBMIT_REPORT';
+
+//const PICK_END_STATE_TOKEN = 'PICK_END';
+
+let appState = IDLE_STATE_TOKEN;
 let startPoint = null;
+let endPoint = null;
 
 function onMapClick(e) {
-    if(appState === 'IDLE')
-    {
-        const content = `
-            <div class="popup-content">
-                <p>Координати: ${e.latlng.lat.toFixed(4)}, ${e.latlng.lng.toFixed(4)}</p>
-                <button style class="btn btn-startpoint" onclick="checkStart()">Начало на маршрут</button>
-                <button class="btn btn-addupdate" onclick="updatePopupShow()">Добави опасност</button>
-            </div>
-        `;
-
-        popup
-            .setLatLng(e.latlng)
-            .setContent(content)
-            .openOn(map);
-    } else if(appState === 'PICK_END')
+    if(appState === IDLE_STATE_TOKEN) {
+        handleStateIdle(e);
+    } 
+    else if (appState === PICK_PATH_START_STATE_TOKEN) {
+       handleStatePickPathStart(e);
+    }
+    else if (appState === PICK_PATH_END_STATE_TOKEN) {
+        handleStatePickPathEnd(e);
+    }
+    else if (appState === SUBMIT_REPORT_STATE_TOKEN) { 
+        handleStateSubmitReport(e);
+    }
+    
+    else if(appState === PICK_END_STATE_TOKEN)
     {
         const endPoint = e.latlng;
         L.marker(e.latlng).addTo(map).bindPopup("End Point");
@@ -44,6 +55,8 @@ function onMapClick(e) {
         //api za executables
         fetchPath(startPoint, endPoint);
     }
+    
+    console.log(appState);
 }
 
 map.on('click', onMapClick);
@@ -51,26 +64,97 @@ map.on('click', onMapClick);
 function checkStart()
 {
     map.closePopup();
-    alert("Избери крайна точка от картата!");
+    //alert("Избери крайна точка от картата!");
     appState = 'PICK_END';
 }
 
 function updatePopupShow()
 {
     //to do content of popup
-    const updatePopup = L.popup()
-                    .setLatLng(map.getCenter())
+    const updatePopup = 
+        L.popup()
+        .setLatLng(map.getCenter())
         .setContent()
         .openOn(map);
 
 }
 
+//===ALEX===
+function handleStateSubmitReport() {
+    console.log("report red");
 
+    appState = IDLE_STATE_TOKEN;
+}
 
+//===STATE MACHINE===
+function handleStateIdle(e) {
+            // const content = `
+        //     <div class="popup-content">
+        //         <p>Координати: ${e.latlng.lat.toFixed(4)}, ${e.latlng.lng.toFixed(4)}</p>
+        //         <button style class="btn btn-startpoint" onclick="checkStart()">Начало на маршрут</button>
+        //         <button class="btn btn-addupdate" onclick="updatePopupShow()">Добави опасност</button>
+        //     </div>
+        // `;
 
+        const content = `
+            <div class="popup-content">
+                <p>Координати: ${e.latlng.lat.toFixed(4)}, ${e.latlng.lng.toFixed(4)}</p>
+                <button style class="btn btn-startpoint" onclick="setStateToPickPath()">Начало на маршрут</button>
+                <button class="btn btn-addupdate" onclick="updatePopupShow()">Добави опасност</button>
+            </div>`;
 
+        popup
+            .setLatLng(e.latlng)
+            .setContent(content)
+            .openOn(map);
+}
 
+//tva se vika samo ot butona
+function setStateToPickPath() {
+    map.closePopup();
 
+    appState = PICK_PATH_START_STATE_TOKEN;
+}
+
+function handleStatePickPathStart(e) {
+    L.marker(e.latlng).addTo(map).bindPopup("Start Point");
+
+    lat = e.latlng.lat;
+    lng = e.latlng.lng;
+
+    //da se izpolzvat koordinatite na toq point 
+    startPoint = getNearestVertex(lat, lng);
+
+    appState = PICK_PATH_END_STATE_TOKEN;
+}
+
+function handleStatePickPathEnd(e) {
+    L.marker(e.latlng).addTo(map).bindPopup("End Point");
+
+    lat = e.latlng.lat;
+    lng = e.latlng.lng;
+
+    //da se izpolzvat koordinatite na toq point 
+    endPoint = getNearestVertex(lat, lng);
+
+    //ot tuka da se vika na aidan neshtotto da izchislqva putq chrez koordinatite na tochkite
+    invokePathfinder();
+
+    appState = IDLE_STATE_TOKEN;
+}
+
+//===COORDINATES===
+async function getNearestVertex(lat, lng) {
+    const response = await fetch(`get_closest_vertex.php?lat=${lat}&lng=${lng}`);
+    const data = await response.json();
+    return data;
+}
+
+function invokePathfinder() {
+    console.log("s: " + startPoint + " t: " + endPoint);
+
+    calculatePath();
+}
 
 // let points = []; 
 // map.on('click', function(e) {
