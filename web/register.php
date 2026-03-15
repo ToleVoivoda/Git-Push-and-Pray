@@ -21,7 +21,7 @@
 <body>
     <main>
         <div class="img-box-reg">
-            <img class="register-img" src="img/registerimg.png"/>
+            <img class="register-img" src="img/registerimg2.png"/>
         </div>
         <div class="register-box">
             <h2 class="loginheading">Регистрация</h2>

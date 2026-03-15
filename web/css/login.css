@@ -21,7 +21,7 @@ body
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    box-shadow: 5px 5px 10px gray;
+    box-shadow: 5px 5px 15px rgba(0,0,0,0.2);
 }
 
 
@@ -41,7 +41,6 @@ body
     display: flex;
     flex-direction: column;
     align-items: center;
-    box-shadow: 5px 5px 10px gray;
 }
 
 .login-main {
@@ -77,4 +76,11 @@ body
     position: absolute;
     left: 30%;
     top: 25%;
+}
+
+.img-box-reg
+{
+    position: absolute;
+    right: 90%;
+    top: 20%;
 }
