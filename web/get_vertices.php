@@ -24,9 +24,9 @@ $result = $sql->get_result();
 // 3. Re-index the result so the key is the vertex_idx for easy JS access
 $results = [];
 while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-    $results[$row['vertex_idx']] = [
-        'x' => (float)$row['x'],
-        'y' => (float)$row['y']
+    $results[$row['id']] = [
+        'lat' => (float)$row['lat'],
+        'lon' => (float)$row['lon']
     ];
 }
 
