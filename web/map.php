@@ -4,6 +4,7 @@
     <title>Safe Route Map</title>
 
     <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css"/>
+    <link rel="stylesheet" href="web/css/leaflet.css">
 
     <style>
         #map {
