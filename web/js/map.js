@@ -30,7 +30,7 @@ function onMapClick(e) {
             <div class="popup-content">
                 <p>Координати: ${e.latlng.lat.toFixed(4)}, ${e.latlng.lng.toFixed(4)}</p>
                 <button style class="btn btn-startpoint" onclick="setStateToPickPath()">Начало на маршрут</button>
-                <button class="btn btn-addupdate" onclick="updatePopupShow()">Добави опасност</button>
+                
             </div>`;
 
         popup
@@ -140,7 +140,7 @@ window.simulateSendReport = function(v1_id, lat, lng) {
 //tva se vika samo ot butona
 function setStateToPickPath() {
     map.closePopup();
-    appState = IDLE_STATE_TOKEN;
+    appState = PICK_PATH_START_STATE_TOKEN;
 };
 
 function drawDangerEdge(v1, v2, lat, lng) {
@@ -161,13 +161,14 @@ window.setStateToPickPath = function() {
     alert("Избери НАЧАЛНА точка от картата!");
 };
 
-async function handleStatePickPathStart(e) {
-    L.marker(e.latlng).addTo(map).bindPopup("Start Point");
-    const nearest = await getNearestVertex(e.latlng.lat, e.latlng.lng);
-    startPoint = nearest.vertex_idx || nearest.id;
-    appState = PICK_PATH_END_STATE_TOKEN;
-    alert("Сега избери КРАЙНА точка!");
-    }
+// async function handleStatePickPathStart(e) {
+//     L.marker(e.latlng).addTo(map).bindPopup("Start Point");
+//     const nearest = await getNearestVertex(e.latlng.lat, e.latlng.lng);
+//     startPoint = nearest.vertex_idx || nearest.id;
+//     appState = PICK_PATH_END_STATE_TOKEN;
+//     alert("Сега избери КРАЙНА точка!");
+// }
+    
 // Change to async
 async function handleStatePickPathStart(e) {
     startPoint = await getNearestVertex(e.latlng.lat, e.latlng.lng);
@@ -175,7 +176,7 @@ async function handleStatePickPathStart(e) {
     L.marker(e.latlng).addTo(map).bindPopup("Start Point");
     // Must use AWAIT here
 
-console.log(startPoint);
+    console.log(startPoint);
 
     appState = PICK_PATH_END_STATE_TOKEN;
     console.log("Start Point Set:", startPoint);
@@ -203,24 +204,6 @@ function invokePathfinder() {
     calculatePath();
 }
 
-// let points = []; 
-// map.on('click', function(e) {
-//    points.push(e.latlng);
-//     L.marker(e.latlng).addTo(map);
-
-//     if (points.length === 2) {
-//         //start/end point, cpp call for path @Aydin  VIJ GORE line 45^
-//         fetchPath(points[0], points[1]);
-//         points = []; // Reset for next selection
-//     }
-// });
-
-//path request
-
-
-
-//
-
 // Expose functions to the global scope so buttons can find them
 window.setStateToPickPath = setStateToPickPath;
-window.updatePopupShow = updatePopupShow;
+//window.updatePopupShow = updatePopupShow;
