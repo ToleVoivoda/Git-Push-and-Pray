@@ -11,13 +11,15 @@ if (empty($ids)) {
     exit;
 }
 
-
 // 1. Create placeholders for the IN clause: ?,?,?
 $placeholders = implode(',', array_fill(0, count($ids), '?'));
 
 // 2. Prepare and execute the query
-$stmt = $pdo->prepare("SELECT vertex_idx, x, y FROM vertices WHERE vertex_idx IN ($placeholders)");
-$stmt->execute($ids);
+$sql = $con->prepare("SELECT vertex_idx, x, y FROM vertices WHERE vertex_idx IN ($placeholders)");
+$types = str_repeat('i', count($ids));
+$sql->bind_param($types, ...$ids);
+$sql->execute($ids);
+$result = $sql->get_result();
 
 // 3. Re-index the result so the key is the vertex_idx for easy JS access
 $results = [];
@@ -29,3 +31,4 @@ while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
 }
 
 echo json_encode($results);
+$sql->close();
