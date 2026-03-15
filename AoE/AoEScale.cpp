@@ -6,6 +6,7 @@
 #include "AoEScale.h"
 #include <iostream>
 #include "../algorithms/write_to_database.cpp"
+#include <chrono>
 using namespace std;
 
 void printGraph(const vector<vector<Edge>>& adj) {
@@ -18,11 +19,13 @@ void printGraph(const vector<vector<Edge>>& adj) {
     }
 }
 
-void updateOppositeEdge(vector<vector<Edge>>& adj, const size_t& first, const size_t& second, double& newRating) {
-    for (int i=0;i<adj[second].size();i++) {
-        if (adj[second][i].second_node.id==first) {
-            newRating = std::min(newRating, 10.0);
-            adj[second][i].rating = newRating;
+void updateOppositeEdge(vector<vector<Edge>>& adj, const size_t& first, const size_t& second, double& newRating, vector<Edge>& UpdatedEdges) {
+    for (Edge& edge : adj[second]) {
+        if (edge.second_node.id==first) {
+            edge.rating = newRating;
+            edge.rating = std::min(edge.rating, 10.0);
+            edge.rating = size_t(edge.rating*10) /10.0;
+            UpdatedEdges.push_back(edge);
             return;
         }
     }
@@ -43,6 +46,7 @@ void updateNearEdgesV3(vector<vector<Edge>>& adj, const size_t& srcNodeId, const
 
         for (Edge& edge : adj[u]) {
             size_t v = edge.second_node.id;
+            if (dist[v]!=-1) continue;
             double newDist = accDist + edge.length;
 
             // stop if we exceed max distance
@@ -50,7 +54,7 @@ void updateNearEdgesV3(vector<vector<Edge>>& adj, const size_t& srcNodeId, const
 
             // decay factor based on distance (optional: linear or exponential)
             double decay_factor = 0.2*pow(0.25, newDist/ maxDistance); // example: 0–1000m scaled
-            double added_danger = modifier * decay_factor;
+            double added_danger = modifier * decay_factor - diffFromLastInHours(edge)/120.0;
 
             edge.rating += added_danger;
             edge.rating = std::min(edge.rating, 10.0);
@@ -58,7 +62,7 @@ void updateNearEdgesV3(vector<vector<Edge>>& adj, const size_t& srcNodeId, const
             updatedEdges.push_back(edge);
 
             // update opposite edge in undirected graph
-            updateOppositeEdge(adj, edge.first_node.id, edge.second_node.id, edge.rating);
+            updateOppositeEdge(adj, edge.first_node.id, edge.second_node.id, edge.rating, updatedEdges);
 
             // enqueue neighbor if not visited or found shorter path
             if (dist[v] == -1 || newDist < dist[v]) {
@@ -68,4 +72,15 @@ void updateNearEdgesV3(vector<vector<Edge>>& adj, const size_t& srcNodeId, const
         }
     }
     write_to_database(updatedEdges);
+}
+
+size_t diffFromLastInHours(Edge &edge) {
+    auto now = chrono::system_clock::now();
+    auto timeFromEpoch = now.time_since_epoch();
+    size_t timestamp_ms = chrono::duration_cast<chrono::milliseconds>(timeFromEpoch).count();
+    size_t diff = timestamp_ms-edge.last_update;
+    std::cout<<timestamp_ms<<"\n"<<diff<<"\n";
+    diff = diff /1000 /60 /60;
+    edge.last_update=timestamp_ms;
+    return diff;
 }
