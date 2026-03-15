@@ -1,3 +1,8 @@
+export function calculatePath() {
+    console.log("rah");
+}
+
+
 async function getCoordinates(ids) {
     const response = await fetch('get_vertices.php', {
         method: 'POST',
@@ -29,7 +34,4 @@ fetch('dijkstra_path_test.json')
 
 
 
-export function calculatePath() {
-
-}
 

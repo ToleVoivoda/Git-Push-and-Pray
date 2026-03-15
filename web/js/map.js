@@ -1,4 +1,4 @@
-import { calculatePath } from 'readFromAidan.js';
+import { calculatePath } from './readFromAidan.js';
 
 const map = L.map('map').setView([42.6977, 23.3219], 13); // Sofia coordinates
 
@@ -86,8 +86,10 @@ function handleStateSubmitReport() {
     appState = IDLE_STATE_TOKEN;
 }
 
+
 //===STATE MACHINE===
 function handleStateIdle(e) {
+    
             // const content = `
         //     <div class="popup-content">
         //         <p>Координати: ${e.latlng.lat.toFixed(4)}, ${e.latlng.lng.toFixed(4)}</p>
