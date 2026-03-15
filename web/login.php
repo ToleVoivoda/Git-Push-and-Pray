@@ -27,7 +27,7 @@
         </div>
         <div class="login-box">
             <h2 class="loginheading">Вход</h2>
-            <form id="login-form" class="login-form" onsubmit="setCredentials()">
+            <form id="login-form" class="login-form" onsubmit="return setCredentials(event)">
                 <div class="form-floating mb-3 mt-3">
                     <input type="email" class="form-control" id="email" placeholder="Въведете имейл" name="email">
                     <label for="email">Имейл</label>
