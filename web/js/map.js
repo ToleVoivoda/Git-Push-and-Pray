@@ -119,32 +119,30 @@ function handleStateIdle(e) {
 function setStateToPickPath() {
     map.closePopup();
 
+
     appState = PICK_PATH_START_STATE_TOKEN;
 }
 
 // Change to async
 async function handleStatePickPathStart(e) {
-    L.marker(e.latlng).addTo(map).bindPopup("Start Point");
-
-    // Must use AWAIT here
     startPoint = await getNearestVertex(e.latlng.lat, e.latlng.lng);
+    
+    L.marker(e.latlng).addTo(map).bindPopup("Start Point");
+    // Must use AWAIT here
+
+console.log(startPoint);
 
     appState = PICK_PATH_END_STATE_TOKEN;
     console.log("Start Point Set:", startPoint);
 }
 
-function handleStatePickPathEnd(e) {
+async function handleStatePickPathEnd(e) {
     L.marker(e.latlng).addTo(map).bindPopup("End Point");
 
-    lat = e.latlng.lat;
-    lng = e.latlng.lng;
-
-    //da se izpolzvat koordinatite na toq point 
-    endPoint = getNearestVertex(lat, lng);
-
-    //ot tuka da se vika na aidan neshtotto da izchislqva putq chrez koordinatite na tochkite
+    // Must use AWAIT here
+    endPoint = await getNearestVertex(e.latlng.lat, e.latlng.lng);
+    
     invokePathfinder();
-
     appState = IDLE_STATE_TOKEN;
 }
 
@@ -178,3 +176,7 @@ function invokePathfinder() {
 
 
 //
+
+// Expose functions to the global scope so buttons can find them
+window.setStateToPickPath = setStateToPickPath;
+window.updatePopupShow = updatePopupShow;

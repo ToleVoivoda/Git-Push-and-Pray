@@ -2,7 +2,6 @@
 header('Content-Type: application/json');
 include "db_connection.php";
 
-// Get the JSON body from the request
 $data = json_decode(file_get_contents('php://input'), true);
 $ids = $data['ids'] ?? [];
 
@@ -11,24 +10,28 @@ if (empty($ids)) {
     exit;
 }
 
-// 1. Create placeholders for the IN clause: ?,?,?
 $placeholders = implode(',', array_fill(0, count($ids), '?'));
+$stmt = $con->prepare("SELECT id, lat, lon FROM vertex WHERE id IN ($placeholders)");
 
-// 2. Prepare and execute the query
-$sql = $con->prepare("SELECT vertex_idx, x, y FROM vertices WHERE vertex_idx IN ($placeholders)");
+// Dynamically bind parameters
 $types = str_repeat('i', count($ids));
-$sql->bind_param($types, ...$ids);
-$sql->execute($ids);
-$result = $sql->get_result();
+$stmt->bind_param($types, ...$ids);
 
-// 3. Re-index the result so the key is the vertex_idx for easy JS access
+$stmt->execute();
+$result = $stmt->get_result();
+
+// ... after fetching rows ...
 $results = [];
-while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+while ($row = $result->fetch_assoc()) {
+    // Ensure these keys exactly match the JS: ['lat'] and ['lon']
     $results[$row['id']] = [
-        'lat' => (float)$row['lat'],
+        'lat' => (float)$row['lat'], 
         'lon' => (float)$row['lon']
     ];
 }
-
 echo json_encode($results);
-$sql->close();
+echo json_encode($results);
+
+$stmt->close();
+$con->close();
+?>
