@@ -12,9 +12,8 @@
 <div class="map" id="map"></div>
 
 <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
-<script src="js/map.js"></script>
-<script type="module" src="js/readFromAidan.js"></script>
 <script type="module" src="js/map.js"></script>
+<script type="module" src="js/readFromAidan.js"></script>
 
 </body>
 </html>

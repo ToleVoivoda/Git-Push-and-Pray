@@ -16,6 +16,8 @@ const PICK_PATH_START_STATE_TOKEN = 'PICK_PATH_START';
 const PICK_PATH_END_STATE_TOKEN = 'PICK_PATH_END';
 const SUBMIT_REPORT_STATE_TOKEN = 'SUBMIT_REPORT';
 
+// const PICK_END_STATE_TOKEN = 'PICK_END';
+
 let appState = IDLE_STATE_TOKEN;
 let startPoint = null;
 let endPoint = null;
@@ -24,14 +26,38 @@ let endPoint = null;
 function onMapClick(e) {
     console.log("Current State:", appState);
     if(appState === IDLE_STATE_TOKEN) {
-        handleStateIdle(e);
+        const content = `
+            <div class="popup-content">
+                <p>Координати: ${e.latlng.lat.toFixed(4)}, ${e.latlng.lng.toFixed(4)}</p>
+                <button style class="btn btn-startpoint" onclick="setStateToPickPath()">Начало на маршрут</button>
+                <button class="btn btn-addupdate" onclick="updatePopupShow()">Добави опасност</button>
+            </div>`;
+
+        popup
+            .setLatLng(e.latlng)
+            .setContent(content)
+            .openOn(map);
     } 
-    else if (appState === PICK_PATH_START_STATE_TOKEN) {
+    if (appState === PICK_PATH_START_STATE_TOKEN) {
        handleStatePickPathStart(e);
     }
-    else if (appState === PICK_PATH_END_STATE_TOKEN) {
+    if (appState === PICK_PATH_END_STATE_TOKEN) {
         handleStatePickPathEnd(e);
     }
+    if (appState === SUBMIT_REPORT_STATE_TOKEN) { 
+        handleStateSubmitReport(e);
+    }
+    
+    // else if(appState === PICK_END_STATE_TOKEN)
+    // {
+    //     const endPoint = e.latlng;
+    //     L.marker(e.latlng).addTo(map).bindPopup("End Point");
+    //     appState = 'IDLE';
+    //     //api za executables
+    //     fetchPath(startPoint, endPoint);
+    // }
+    
+    console.log(appState);
 }
 map.on('click', onMapClick);
 
@@ -108,6 +134,11 @@ window.simulateSendReport = function(v1_id, lat, lng) {
     drawDangerEdge(v1_id, graphUpdate.v2, lat, lng);
 
     alert("Сигналът е записан успешно!");
+        
+}
+
+//tva se vika samo ot butona
+function setStateToPickPath() {
     map.closePopup();
     appState = IDLE_STATE_TOKEN;
 };
@@ -136,6 +167,16 @@ async function handleStatePickPathStart(e) {
     startPoint = nearest.vertex_idx || nearest.id;
     appState = PICK_PATH_END_STATE_TOKEN;
     alert("Сега избери КРАЙНА точка!");
+    }
+// Change to async
+async function handleStatePickPathStart(e) {
+    L.marker(e.latlng).addTo(map).bindPopup("Start Point");
+
+    // Must use AWAIT here
+    startPoint = await getNearestVertex(e.latlng.lat, e.latlng.lng);
+
+    appState = PICK_PATH_END_STATE_TOKEN;
+    console.log("Start Point Set:", startPoint);
 }
 
 async function handleStatePickPathEnd(e) {

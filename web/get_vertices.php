@@ -11,27 +11,24 @@ if (empty($ids)) {
     exit;
 }
 
-// Database Connection (Example using PDO)
-$host = 'localhost';
-$db   = 'your_database';
-$user = 'root';
-$pass = '';
-$pdo = new PDO("mysql:host=$host;dbname=$db", $user, $pass);
-
 // 1. Create placeholders for the IN clause: ?,?,?
 $placeholders = implode(',', array_fill(0, count($ids), '?'));
 
 // 2. Prepare and execute the query
-$stmt = $pdo->prepare("SELECT vertex_idx, x, y FROM vertices WHERE vertex_idx IN ($placeholders)");
-$stmt->execute($ids);
+$sql = $con->prepare("SELECT vertex_idx, x, y FROM vertices WHERE vertex_idx IN ($placeholders)");
+$types = str_repeat('i', count($ids));
+$sql->bind_param($types, ...$ids);
+$sql->execute($ids);
+$result = $sql->get_result();
 
 // 3. Re-index the result so the key is the vertex_idx for easy JS access
 $results = [];
 while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-    $results[$row['vertex_idx']] = [
-        'x' => (float)$row['x'],
-        'y' => (float)$row['y']
+    $results[$row['id']] = [
+        'lat' => (float)$row['lat'],
+        'lon' => (float)$row['lon']
     ];
 }
 
 echo json_encode($results);
+$sql->close();

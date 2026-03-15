@@ -47,7 +47,9 @@ CREATE TABLE IF NOT EXISTS `vertex`
 (
     `id` BIGINT NOT NULL PRIMARY KEY,
     /*STANDART STREET NAME MAX LENGTH: */
-    `name` VARCHAR(95)
+    `name` VARCHAR(95),
+    `lat` FLOAT,
+    `lon` FLOAT 
 );
 
 CREATE TABLE IF NOT EXISTS `edge`
@@ -80,6 +82,11 @@ ADD CONSTRAINT `edgeVertex_vertex_id` FOREIGN KEY (`vertexId`) REFERENCES vertex
 
 ALTER TABLE `edgeVertex`
 ADD CONSTRAINT `edgeVertex_edge_id` FOREIGN KEY (`edgeId`) REFERENCES edge(`id`);
+
+ALTER TABLE `vertex`
+    ADD COLUMN `lat` FLOAT NOT NULL;
+ALTER TABLE `vertex`
+    ADD COLUMN `lon` FLOAT NOT NULL;
 
 INSERT INTO `updateCategory` (`name`)
     VALUES ("Намалена видимост");
