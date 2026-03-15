@@ -201,7 +201,7 @@ async function getNearestVertex(lat, lng) {
 function invokePathfinder() {
     console.log("s: " + startPoint + " t: " + endPoint);
 
-    calculatePath();
+    calculatePath(map, startPoint, endPoint);
 }
 
 // Expose functions to the global scope so buttons can find them
