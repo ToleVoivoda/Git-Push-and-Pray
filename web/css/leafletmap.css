@@ -1,4 +1,11 @@
-#map 
+.map 
 { 
     height: 100vh; 
+    width: 60%;
+}
+
+.btn
+{
+    background-color: brown;
+    border-radius: 30%;
 }

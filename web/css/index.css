@@ -1,6 +1,6 @@
 body
 {
-    background-image: url('web/img/indexbg.png');
+    /*background-image: url('web/img/indexbg.png');*/
     background-size: cover;      
     background-position: center;  
     background-repeat: no-repeat; 
@@ -71,3 +71,5 @@ input[type="submit"]{
     border-top-left-radius: 0;
     border-top-right-radius: 0;
 }
+
+#map {height: 180px;}
