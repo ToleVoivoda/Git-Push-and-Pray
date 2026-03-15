@@ -20,7 +20,7 @@
 
 <body>
     <main>
-        <div class="login-box">
+        <div class="register-box">
             <h2 class="loginheading">Регистрация</h2>
             <form id="register-form" action="register-action-try2.php" method="post">
                 <div class="form-floating mb-3 mt-3">

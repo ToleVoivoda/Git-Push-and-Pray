@@ -9,28 +9,62 @@ body
 
 .login-box
 {
-    align-items: center;
-    padding: 3%;
+    padding: 2%;
     width: 50vh;
-    height: 50vh;
+    height: 60vh;
     background-color: white;
-    position: absolute;
-    top: 30%;
-    right: 5%;
+    /* position: absolute; */
+    /* top: 25%;
+    right: 5%; */
     border-radius: 10%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
 
-.loginheading
-{
-    text-align: center;
-}
+
 
 .login-button
 {
+    margin: 5%;
     background-color: #dba2ff;
     border-color: transparent;
     height: 50px;
-    width: 150px;
+    width: 170px;
     align-items: center;
-    border-radius: 15%;
+    border-radius: 20px;
+}
+
+.login-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.login-main {
+    padding-top: 7%;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    justify-items: center;
+    align-items: center;
+}
+
+.register-box {
+        padding: 1%;
+    width: 50vh;
+    height: 90vh;
+    background-color: white;
+    /* position: absolute; */
+    /* top: 25%;
+    right: 5%; */
+    border-radius: 30px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    /* margin: auto; */
+    margin-top: 50px;
+    margin-left: 825px;
+    box-shadow: 5px 5px 10px gray;
 }
