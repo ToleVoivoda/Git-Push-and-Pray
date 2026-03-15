@@ -20,6 +20,9 @@
 
 <body>
     <main>
+        <div class="img-box-reg">
+            <img class="register-img" src="img/registerimg.png"/>
+        </div>
         <div class="register-box">
             <h2 class="loginheading">Регистрация</h2>
             <form id="register-form" action="register-action-try2.php" method="post">
@@ -57,6 +60,9 @@
                 <div class="form-floating mt-3 mb-3">
                     <input type="text" class="form-control" id="password2" placeholder="Повторете паролата" name="password2">
                     <label for="password2">Повторете паролата</label>
+                </div>
+                <div class="login-additional">
+                    <span ><a href="login.php">Имате профил? Вход</a></span>
                 </div>
 
                 <input class="login-button" type="submit" value="Регистрирай се">
