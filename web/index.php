@@ -22,6 +22,8 @@
         <heading class="heading-main">Safe streets</heading>
     </div>
 
+    <div id="map"></div>
+
     <div>
         <span ><a href="map.php">Начало</a></span>
     </div>
