@@ -67,10 +67,10 @@ window.openDangerFormDirectly = async function(lat, lng) {
             <hr>
             <label><b>Тип на опасността:</b></label><br>
             <div style="line-height: 1.8;">
-                <input type="radio" name="evtType" value="3" checked> 🚗 ПТП<br>
-                <input type="radio" name="evtType" value="6"> 🚧 Ремонт<br>
-                <input type="radio" name="evtType" value="10"> 👤 Опасни лица<br>
-                <input type="radio" name="evtType" value="11"> ❓ Друго
+                <input type="radio" name="evtType" value="3" checked>  ПТП<br>
+                <input type="radio" name="evtType" value="6">  Ремонт<br>
+                <input type="radio" name="evtType" value="10">  Опасни лица<br>
+                <input type="radio" name="evtType" value="11"> Друго
             </div>
             <br>
             <label><b>Описание:</b></label>
