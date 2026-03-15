@@ -27,7 +27,7 @@ const PICK_PATH_END_STATE_TOKEN = 'PICK_PATH_END';
 
 const SUBMIT_REPORT_STATE_TOKEN = 'SUBMIT_REPORT';
 
-//const PICK_END_STATE_TOKEN = 'PICK_END';
+const PICK_END_STATE_TOKEN = 'PICK_END';
 
 let appState = IDLE_STATE_TOKEN;
 let startPoint = null;
@@ -35,26 +35,36 @@ let endPoint = null;
 
 function onMapClick(e) {
     if(appState === IDLE_STATE_TOKEN) {
-        handleStateIdle(e);
+        const content = `
+            <div class="popup-content">
+                <p>Координати: ${e.latlng.lat.toFixed(4)}, ${e.latlng.lng.toFixed(4)}</p>
+                <button style class="btn btn-startpoint" onclick="setStateToPickPath()">Начало на маршрут</button>
+                <button class="btn btn-addupdate" onclick="updatePopupShow()">Добави опасност</button>
+            </div>`;
+
+        popup
+            .setLatLng(e.latlng)
+            .setContent(content)
+            .openOn(map);
     } 
-    else if (appState === PICK_PATH_START_STATE_TOKEN) {
+    if (appState === PICK_PATH_START_STATE_TOKEN) {
        handleStatePickPathStart(e);
     }
-    else if (appState === PICK_PATH_END_STATE_TOKEN) {
+    if (appState === PICK_PATH_END_STATE_TOKEN) {
         handleStatePickPathEnd(e);
     }
-    else if (appState === SUBMIT_REPORT_STATE_TOKEN) { 
+    if (appState === SUBMIT_REPORT_STATE_TOKEN) { 
         handleStateSubmitReport(e);
     }
     
-    else if(appState === PICK_END_STATE_TOKEN)
-    {
-        const endPoint = e.latlng;
-        L.marker(e.latlng).addTo(map).bindPopup("End Point");
-        appState = 'IDLE';
-        //api za executables
-        fetchPath(startPoint, endPoint);
-    }
+    // else if(appState === PICK_END_STATE_TOKEN)
+    // {
+    //     const endPoint = e.latlng;
+    //     L.marker(e.latlng).addTo(map).bindPopup("End Point");
+    //     appState = 'IDLE';
+    //     //api za executables
+    //     fetchPath(startPoint, endPoint);
+    // }
     
     console.log(appState);
 }
@@ -98,17 +108,7 @@ function handleStateIdle(e) {
         //     </div>
         // `;
 
-        const content = `
-            <div class="popup-content">
-                <p>Координати: ${e.latlng.lat.toFixed(4)}, ${e.latlng.lng.toFixed(4)}</p>
-                <button style class="btn btn-startpoint" onclick="setStateToPickPath()">Начало на маршрут</button>
-                <button class="btn btn-addupdate" onclick="updatePopupShow()">Добави опасност</button>
-            </div>`;
-
-        popup
-            .setLatLng(e.latlng)
-            .setContent(content)
-            .openOn(map);
+        
 }
 
 //tva se vika samo ot butona
@@ -118,16 +118,15 @@ function setStateToPickPath() {
     appState = PICK_PATH_START_STATE_TOKEN;
 }
 
-function handleStatePickPathStart(e) {
+// Change to async
+async function handleStatePickPathStart(e) {
     L.marker(e.latlng).addTo(map).bindPopup("Start Point");
 
-    lat = e.latlng.lat;
-    lng = e.latlng.lng;
-
-    //da se izpolzvat koordinatite na toq point 
-    startPoint = getNearestVertex(lat, lng);
+    // Must use AWAIT here
+    startPoint = await getNearestVertex(e.latlng.lat, e.latlng.lng);
 
     appState = PICK_PATH_END_STATE_TOKEN;
+    console.log("Start Point Set:", startPoint);
 }
 
 function handleStatePickPathEnd(e) {

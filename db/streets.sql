@@ -47,7 +47,9 @@ CREATE TABLE IF NOT EXISTS `vertex`
 (
     `id` BIGINT NOT NULL PRIMARY KEY,
     /*STANDART STREET NAME MAX LENGTH: */
-    `name` VARCHAR(95)
+    `name` VARCHAR(95),
+    `lat` FLOAT,
+    `lon` FLOAT 
 );
 
 CREATE TABLE IF NOT EXISTS `edge`
