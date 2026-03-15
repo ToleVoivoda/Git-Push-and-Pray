@@ -21,6 +21,7 @@ body
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    box-shadow: 5px 5px 15px rgba(0,0,0,0.2);
 }
 
 
@@ -51,20 +52,35 @@ body
 }
 
 .register-box {
-        padding: 1%;
+    position: fixed; 
+    top: 50%;     
+    right: 5%;      
+    
+    transform: translateY(-50%); 
+
+  
+    padding: 2%;
     width: 50vh;
     height: 90vh;
     background-color: white;
-    /* position: absolute; */
-    /* top: 25%;
-    right: 5%; */
-    border-radius: 30px;
+    border-radius: 30px; 
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    /* margin: auto; */
-    margin-top: 50px;
-    margin-left: 825px;
-    box-shadow: 5px 5px 10px gray;
+    box-shadow: 5px 5px 15px rgba(0,0,0,0.2);
+}
+
+.register-img
+{
+    position: absolute;
+    left: 30%;
+    top: 25%;
+}
+
+.img-box-reg
+{
+    position: absolute;
+    right: 90%;
+    top: 20%;
 }
