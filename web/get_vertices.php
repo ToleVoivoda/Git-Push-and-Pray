@@ -11,12 +11,6 @@ if (empty($ids)) {
     exit;
 }
 
-// Database Connection (Example using PDO)
-$host = 'localhost';
-$db   = 'your_database';
-$user = 'root';
-$pass = '';
-$pdo = new PDO("mysql:host=$host;dbname=$db", $user, $pass);
 
 // 1. Create placeholders for the IN clause: ?,?,?
 $placeholders = implode(',', array_fill(0, count($ids), '?'));
