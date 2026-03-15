@@ -43,10 +43,10 @@ vector<pair<size_t, size_t>> dijkstra( size_t start, size_t goal, double safety_
             const Edge& edge = *it;
             size_t next_node = edge.second_node.id;
 
-            double rating = (edge.rating / 10.0) - 0.1;
+            //double rating = (edge.rating / 10.0) - 0.1;
+            
 
-
-            double edge_weight = safety_coefficient * rating + (1 - safety_coefficient) * edge.length;
+            double edge_weight = safety_coefficient * edge.rating + (1 - safety_coefficient) * edge.length;
             double new_cost = current_cost + edge_weight;
 
             if(new_cost < cost_from_source[next_node]){
