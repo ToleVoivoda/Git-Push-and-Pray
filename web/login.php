@@ -19,10 +19,13 @@
 </head>
 
 <body>
-    <main>
+    <main class="login-main">
+        <div class="img-box">
+            <img src="img/loginimg.png" />
+        </div>
         <div class="login-box">
             <h2 class="loginheading">Вход</h2>
-            <form id="login-form" action="login-action.php" method="post">
+            <form id="login-form" class="login-form" action="login-action.php" method="post">
                 <div class="form-floating mb-3 mt-3">
                     <input type="email" class="form-control" id="email" placeholder="Въведете имейл" name="email">
                     <label for="email">Имейл</label>
