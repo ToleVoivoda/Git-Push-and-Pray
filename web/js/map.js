@@ -19,45 +19,26 @@ const SUBMIT_REPORT_STATE_TOKEN = 'SUBMIT_REPORT';
 // const PICK_END_STATE_TOKEN = 'PICK_END';
 
 let appState = IDLE_STATE_TOKEN;
-let startPoint = null;
-let endPoint = null;
+let startVertIdx = null;
+let endVertIdx = null;
 
 // --- MAIN CLICK HANDLER ---
 function onMapClick(e) {
     console.log("Current State:", appState);
     if(appState === IDLE_STATE_TOKEN) {
-        const content = `
-            <div class="popup-content">
-                <p>Координати: ${e.latlng.lat.toFixed(4)}, ${e.latlng.lng.toFixed(4)}</p>
-                <button style class="btn btn-startpoint" onclick="setStateToPickPath()">Начало на маршрут</button>
-                
-            </div>`;
-
-        popup
-            .setLatLng(e.latlng)
-            .setContent(content)
-            .openOn(map);
+        handleStateIdle(e);
     } 
-    if (appState === PICK_PATH_START_STATE_TOKEN) {
+    else if (appState === PICK_PATH_START_STATE_TOKEN) {
        handleStatePickPathStart(e);
     }
-    if (appState === PICK_PATH_END_STATE_TOKEN) {
+    else if (appState === PICK_PATH_END_STATE_TOKEN) {
         handleStatePickPathEnd(e);
     }
-    if (appState === SUBMIT_REPORT_STATE_TOKEN) { 
+    else if (appState === SUBMIT_REPORT_STATE_TOKEN) { 
         handleStateSubmitReport(e);
     }
-    
-    // else if(appState === PICK_END_STATE_TOKEN)
-    // {
-    //     const endPoint = e.latlng;
-    //     L.marker(e.latlng).addTo(map).bindPopup("End Point");
-    //     appState = 'IDLE';
-    //     //api za executables
-    //     fetchPath(startPoint, endPoint);
-    // }
-    
-    console.log(appState);
+
+    console.log("Exit with state: " + appState);
 }
 map.on('click', onMapClick);
 
@@ -108,6 +89,7 @@ window.openDangerFormDirectly = async function(lat, lng) {
             </button>
         </div>
     `;
+
     popup.setContent(reportHTML);
 };
 
@@ -162,47 +144,59 @@ window.setStateToPickPath = function() {
 };
 
 async function handleStatePickPathStart(e) {
-    // 1. Get the data from the server
     const nearest = await getNearestVertex(e.latlng.lat, e.latlng.lng);
     
-    // 2. Extract the ID safely (checking both possible keys)
-    startPoint = nearest.vertex_idx || nearest.id;
+    startVertIdx = nearest.id;
 
-    if (!startPoint) {
+    if (!startVertIdx) {
         console.error("Error: Could not determine start point ID from:", nearest);
         alert("Неуспешно намиране на точка. Опитай пак.");
         return;
     }
 
-    // 3. Visual feedback
-    L.marker(e.latlng).addTo(map).bindPopup("Начало: " + startPoint);
+    const markerLatLng = [nearest.lat, nearest.lon];
+
+    L.marker(markerLatLng).addTo(map).bindPopup("Начало: " + startVertIdx);
     
-    // 4. Update state and log progress
-    appState = PICK_PATH_END_STATE_TOKEN;
-    console.log("Start Point Set successfully:", startPoint);
     alert("Готово! Избери крайна точка!");
+    
+    appState = PICK_PATH_END_STATE_TOKEN;
 }
 
 async function handleStatePickPathEnd(e) {
-    L.marker(e.latlng).addTo(map).bindPopup("End Point");
+    const nearest = await getNearestVertex(e.latlng.lat, e.latlng.lng);
+    
+    endVertIdx = nearest.id;
 
-    // Must use AWAIT here
-    endPoint = await getNearestVertex(e.latlng.lat, e.latlng.lng);
+    if (!endVertIdx) {
+        console.error("Error: Could not determine start point ID from:", nearest);
+        alert("Неуспешно намиране на точка. Опитай пак.");
+        return;
+    }
+
+    const markerLatLng = [nearest.lat, nearest.lon];
+
+    L.marker(markerLatLng).addTo(map).bindPopup("Начало: " + startVertIdx);
+    
+    alert("Готово!");
     
     invokePathfinder();
+
     appState = IDLE_STATE_TOKEN;
 }
 
 // --- HELPERS ---
 async function getNearestVertex(lat, lng) {
     const response = await fetch(`get_closest_vertex.php?lat=${lat}&lng=${lng}`);
-    return await response.json();
+    const data = await response.json();
+
+    return data;
 }
 
 function invokePathfinder() {
-    console.log("s: " + startPoint + " t: " + endPoint);
+    console.log("s: " + startVertIdx + " t: " + endVertIdx);
 
-    calculatePath(map, startPoint, endPoint);
+    calculatePath(map, startVertIdx, endVertIdx);
 }
 
 // Expose functions to the global scope so buttons can find them
