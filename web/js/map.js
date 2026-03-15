@@ -162,23 +162,25 @@ window.setStateToPickPath = function() {
 };
 
 async function handleStatePickPathStart(e) {
-    L.marker(e.latlng).addTo(map).bindPopup("Start Point");
+    // 1. Get the data from the server
     const nearest = await getNearestVertex(e.latlng.lat, e.latlng.lng);
-    startPoint = nearest.vertex_idx || nearest.id;
-    appState = PICK_PATH_END_STATE_TOKEN;
-    alert("Сега избери КРАЙНА точка!");
-    }
-// Change to async
-async function handleStatePickPathStart(e) {
-    startPoint = await getNearestVertex(e.latlng.lat, e.latlng.lng);
     
-    L.marker(e.latlng).addTo(map).bindPopup("Start Point");
-    // Must use AWAIT here
+    // 2. Extract the ID safely (checking both possible keys)
+    startPoint = nearest.vertex_idx || nearest.id;
 
-console.log(startPoint);
+    if (!startPoint) {
+        console.error("Error: Could not determine start point ID from:", nearest);
+        alert("Неуспешно намиране на точка. Опитай пак.");
+        return;
+    }
 
+    // 3. Visual feedback
+    L.marker(e.latlng).addTo(map).bindPopup("Начало: " + startPoint);
+    
+    // 4. Update state and log progress
     appState = PICK_PATH_END_STATE_TOKEN;
-    console.log("Start Point Set:", startPoint);
+    console.log("Start Point Set successfully:", startPoint);
+    alert("Готово! Избери крайна точка!");
 }
 
 async function handleStatePickPathEnd(e) {
